@@ -1,0 +1,136 @@
+@import url("https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css");
+$success: #22c55e;
+$info: #3b82f6;
+$warning: #f97316;
+$danger: #ef4544;
+
+$white: #fff;
+
+$background-color: #f0f3fb;
+$gray: darken($background-color, 30%);
+
+$colors: (
+    "success": $success,
+    "info": $info,
+    "warning": $warning,
+    "danger": $danger
+);
+
+html {
+    font-size: 10px;
+    box-sizing: border-box;
+    font-family: monospace;
+}
+body {
+    display: grid;
+    place-content: center;
+    min-height: 100vh;
+    background-color: $background-color;
+}
+
+.container {
+    padding: 2rem;
+    background-color: $white;
+    box-shadow: 0px 5px 5px rgba(128, 128, 128, 0.319);
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.btn {
+    border: 0;
+    padding: 2rem 5rem;
+    box-shadow: 0px 5px 5px rgba(128, 128, 128, 0.219);
+    color: $white;
+    border-radius: 4px;
+    font-size: 2rem;
+}
+.toasts {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.toast {
+    font-size: 2rem;
+    font-weight: bold;
+
+    box-shadow: 0px 5px 5px rgba(128, 128, 128, 0.219);
+    background-color: $white;
+    margin: 1rem;
+    padding: 3rem 4rem;
+    border-radius: 5px;
+    position: relative;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    animation: toastFadIn 1s;
+
+    .btn-toast-close {
+        color: $gray;
+        right: calc(4rem / 2 / 2);
+        position: absolute;
+        transition: color 0.3s;
+        &:hover {
+            border-radius: 50%;
+
+            color: darken($background-color, 10%);
+            cursor: pointer;
+        }
+    }
+}
+@each $k, $v in $colors {
+    .btn-#{$k} {
+        background-color: $v;
+        transition: background-color 0.3s;
+        &:hover {
+            background-color: lighten($v, 10%);
+            cursor: pointer;
+        }
+    }
+    .toast-#{$k} {
+        border-bottom: 4px solid $v;
+        &::before {
+            font-family: "Font Awesome 5 Free";
+            @if $k == "success" {
+                content: "\f058";
+            } @else if $k== "info" {
+                content: "\f05a";
+            } @else if $k== "warning" {
+                content: "\f071";
+            } @else {
+                content: "\f057";
+            }
+            color: $v;
+            position: absolute;
+            left: calc(4rem / 2 / 2); // majd ezt kiveszem egy változoba
+        }
+    }
+}
+
+.show {
+    display: block;
+}
+
+@keyframes toastFadIn {
+    0% {
+        transform: translateY(40vh);
+        opacity: 0;
+        scale: 0.9;
+        filter: blur(10px);
+    }
+    30% {
+        transform: translateY(60%);
+    }
+    100% {
+        transform: translateY(0%);
+        scale: 1;
+        opacity: 1;
+        filter: none;
+    }
+}
+/*
+&:hover::after {
+  
+}*/
